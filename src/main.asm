@@ -64,7 +64,8 @@ argc_err:
 
 ; exit with err code 1
   mov rdi, 1
-  call exit
+  mov rax, 60
+  syscall
 
 nan_err:
 ; print err
@@ -76,4 +77,5 @@ nan_err:
 
 ; exit with err code 1
   mov rdi, 1
-  call exit
+  mov rax, 60
+  syscall
