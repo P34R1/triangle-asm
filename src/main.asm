@@ -36,7 +36,7 @@ _start:
   mov r9, 1                            ; chars to print
 
 ; load buf
-  mov al, '*'
+  mov al, '~'
   rep stosb                            ; fill rdi[..rcx] with al
   mov byte [rsp + r8], 0xa             ; newline
 tri_loop:
