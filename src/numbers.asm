@@ -6,9 +6,6 @@
 ; https://www.cs.virginia.edu/%7Eevans/cs216/guides/x86.html
 ; https://blog.rchapman.org/posts/Linux_System_Call_Table_for_x86_64/
 
-  section .bss
-  buf resb 20
-
   section .text
   global atoi
 
