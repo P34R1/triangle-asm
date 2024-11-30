@@ -25,10 +25,10 @@ convert:
   je done
 
 ; err if not a num
-  cmp rsi, '0'                          ; less than 0 is invalid
+  cmp rsi, '0'                         ; less than 0 is invalid
   jl error
 
-  cmp rsi, '9'                          ; greater than 9 is invalid
+  cmp rsi, '9'                         ; greater than 9 is invalid
   jg error
 
 ; convert
