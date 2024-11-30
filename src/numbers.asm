@@ -13,34 +13,34 @@
 ; Parameters:
 ; rdi: ptr to \0 terminated string (number)
 ; Return:
-; rax: int
+; rax: int     -1 is err
 
 atoi:
   mov rax, 0                           ; Set initial total to 0
 
 convert:
 ; get the character
-  movzx rsi, byte [rdi]                ; Get the current character
-  test rsi, rsi                        ; Check for \0
+  movzx rsi, byte [rdi]                ; current char
+  test rsi, rsi                        ; check for \0
   je done
 
 ; err if not a num
-  cmp rsi, 48                          ; Anything less than 0 is invalid
+  cmp rsi, '0'                          ; less than 0 is invalid
   jl error
 
-  cmp rsi, 57                          ; Anything greater than 9 is invalid
+  cmp rsi, '9'                          ; greater than 9 is invalid
   jg error
 
 ; convert
-  sub rsi, '0'                         ; Convert from ASCII to decimal
-  imul rax, 10                         ; Multiply total by 10
-  add rax, rsi                         ; Add current digit to total
+  sub rsi, '0'                         ; convert from ASCII to decimal
+  imul rax, 10                         ; mul total by 10 (shift digits)
+  add rax, rsi                         ; add digit to total
 
-  inc rdi                              ; Get the address of the next character
+  inc rdi
   jmp convert
 
 error:
-  mov rax, -1                          ; Return -1 on error
+  mov rax, -1                          ; -1 on error
 
 done:
-  ret                                  ; Return total or error code
+  ret
