@@ -25,29 +25,29 @@ _start:
   cmp rax, 0
   jle nan_err
 
-  sub rsp, rax        ; allocate on stack for rax bytes
-  mov rcx, rax        ; rcx = number of bytes to set (size of the buffer)
-  add rcx, 1          ; 1 byte for \n
+  sub rsp, rax                         ; allocate on stack for rax bytes
+  mov rcx, rax                         ; rcx = number of bytes to set (size of the buffer)
+  add rcx, 1                           ; 1 byte for \n
   mov rdi, rsp
 
-  mov r8, rax         ; index
-  mov r9, 1           ; chars to print
+  mov r8, rax                          ; index
+  mov r9, 1                            ; chars to print
 
   mov al, '*'
-  rep stosb           ; fill rdi[..rcx] with al
-  mov byte [rsp + r8], 0xa  ; newline
+  rep stosb                            ; fill rdi[..rcx] with al
+  mov byte [rsp + r8], 0xa             ; newline
 tri_loop:
   dec r8
   inc r9
 
 ; print
-  lea rsi, [rsp + r8]                 ; make rsi the beginning of the string
+  lea rsi, [rsp + r8]                  ; make rsi the beginning of the string
   mov rdx, r9
   mov rdi, 1
   mov rax, 1
   syscall
 
-  cmp r8, 0                           ; repeat if i > 0
+  cmp r8, 0                            ; repeat if i > 0
   jg tri_loop
 
 ; exit
@@ -65,7 +65,6 @@ argc_err:
 ; exit with err code 1
   mov rdi, 1
   call exit
-
 
 nan_err:
 ; print err
