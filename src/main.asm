@@ -10,7 +10,6 @@ nan_err_msg:
   global _start
 
   extern atoi
-  extern exit
 
 _start:
 ; err check instead of segfault
@@ -22,17 +21,21 @@ _start:
   mov rdi, [rsp+16]                    ; argv[1]
   call atoi
 
+; check for invalid input
   cmp rax, 0
   jle nan_err
 
+; setup buf
   sub rsp, rax                         ; allocate on stack for rax bytes
   mov rcx, rax                         ; rcx = number of bytes to set (size of the buffer)
   add rcx, 1                           ; 1 byte for \n
   mov rdi, rsp
 
+; setup for loop (rax gets replaced later so we need to copy vals now)
   mov r8, rax                          ; index
   mov r9, 1                            ; chars to print
 
+; load buf
   mov al, '*'
   rep stosb                            ; fill rdi[..rcx] with al
   mov byte [rsp + r8], 0xa             ; newline
@@ -52,7 +55,8 @@ tri_loop:
 
 ; exit
   mov rdi, 0
-  call exit
+  mov rax, 60
+  syscall
 
 argc_err:
 ; print err
