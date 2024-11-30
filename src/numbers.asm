@@ -11,7 +11,6 @@
 
   section .text
   global atoi
-  global itoa
 
 ; Function atoi
 ; Parameters:
@@ -48,49 +47,3 @@ error:
 
 done:
   ret                                  ; Return total or error code
-
-; Function itoa
-; Parameters:
-; rsi: int to convert
-; Returns
-; rax: memory location
-; rdx: string size
-
-itoa:
-  mov rax, rsi
-  push rbx                             ; Save rbx since we'll use it as a temporary register
-
-; add newline
-  mov rbx, 0Ah
-  mov [buf + 20], rbx                  ; insert newline
-  mov rcx, 1                           ; size of newline char
-
-; load the string loc
-  lea rbx, [buf + 20]                  ; rbx = buffer pointer (point to the end of the buffer)
-  push rbx                             ; save mem loc in stack
-  mov rbx, [rsp]                       ; copy into rbx
-
-  add [rsp], rcx                       ; to account for the newline
-  mov rcx, 10                          ; Divider (10 for decimal base)
-
-itoa_loop:
-; divide
-  mov rdx, 0                           ; ref rdx
-  div rcx                              ; Divide rax by rcx (10), quotient in rax, remainder in rdx
-
-; convert to char and insert
-  add rdx, '0'                         ; Convert remainder (digit) to ASCII            dl is lowest byte of rdx
-  dec rbx                              ; Move buffer pointer backwards
-  mov [rbx], dl                        ; Store the digit in the buffer
-
-; check if done looping
-  test rax, rax                        ; Check if quotient is zero
-  jnz itoa_loop                        ; If not zero, continue loop
-
-itoa_end:
-  lea rax, [rbx]                       ; Return address of the start of the string in rax
-  pop rdx                              ; [buf + 20] mem loc
-  sub rdx, rbx                         ; calculate string len    (buf + 20) - rdx (dec counter)
-
-  pop rbx                              ; Restore rbx
-  ret
